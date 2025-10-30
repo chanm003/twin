@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 
 .env
+lambda-deployment.zip
+lambda-package/
 
 # C extensions
 *.so
