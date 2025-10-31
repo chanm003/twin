@@ -14,6 +14,8 @@ def main():
     os.makedirs("lambda-package")
     print("Installing dependencies for Lambda runtime...")
     # Install dependencies. Use the official AWS Lambda Python 3.12 image. This ensures compatibility with Lambda's runtime environment
+    uid = os.getuid()
+    gid = os.getgid()
     subprocess.run(
         [
             "docker",
@@ -22,9 +24,11 @@ def main():
             "-v",
             f"{os.getcwd()}:/var/task",
             "--platform",
-            "linux/amd64",  # Force x86_64 architecture
+            "linux/amd64",
             "--entrypoint",
-            "",  # Override the default entrypoint
+            "",
+            "-u",
+            f"{uid}:{gid}",  # 👈 Run container as your user
             "public.ecr.aws/lambda/python:3.12",
             "/bin/sh",
             "-c",
